@@ -13,8 +13,7 @@ int main(void){
 
 	int res[dimSize][dimSize];
 
-	int i;
-	int j;
+	
 
 
 	for(i = 0; i < dimSize; i++){
@@ -24,8 +23,9 @@ int main(void){
 		vec[i] = rand() % 10;
 	}
 
-	#pragma omp parallel shared(vec, lMatrix, dimSize, res) private(i, threadID)
+	#pragma omp parallel shared(vec, lMatrix, dimSize, res) private(i, j, threadID)
 	{
+		
 		threadID = omp_get_thread_num();
 
 		if(threadID == 0){
@@ -40,7 +40,7 @@ int main(void){
 		}
 	}
 		
-	#pragma omp parallel shared(vec, lMatrix, dimSize, res) private(i, threadID)
+	#pragma omp parallel shared(vec, lMatrix, dimSize, res) private(i, j, threadID)
 	{
 		threadID = omp_get_thread_num();
 
@@ -56,7 +56,7 @@ int main(void){
 			}
 		}
 	}
-	#pragma omp parallel shared(vec, lMatrix, dimSize, res) private(i, threadID)
+	#pragma omp parallel shared(vec, lMatrix, dimSize, res) private(i, j, threadID)
 	{
 		threadID = omp_get_thread_num();		
 		if(threadID == 0){
