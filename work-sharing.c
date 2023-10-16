@@ -53,5 +53,5 @@ int main (int argc, char *argv[]) {
       }
   } 
   finish=omp_get_wtime();
-  printf("work block 1 time: %f seconds\n",finish-start); 
+  printf("work block 2 time: %f seconds\n",finish-start); 
  } 
