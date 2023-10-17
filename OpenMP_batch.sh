@@ -26,25 +26,37 @@ echo "Requested CPUs per task      : $SLURM_CPUS_PER_TASK"
 echo "Scheduling priority          : $SLURM_PRIO_PROCESS"
 
 # parallel using OpenMP
+# SRC = $1 is name of the source code as an arguemnt
 SRC=$1
-EXE=${SRC%%.c}.exe
-rm -f ${EXE}
-echo compiling $SRC to $EXE
-icc -qopenmp -O0 $SRC  -o $EXE
+
+#sets the exe name as the sourcecode, and %% removes the ".c"
+EXE=${SRC%%.c}.exe 
+
+#deletes the existing executable (if it exists)
+rm -f ${EXE} 
+
+echo compiling $SRC to $EXE 
+
+#compilation using intel compiler of sourcecode to exectuable.
+icc -qopenmp -O0 $SRC  -o $EXE  
 echo
 echo ------------------------------------
 
-if test -x $EXE; then
+#this tests if the file $EXE is present and executable
+if test -x $EXE; then 
       # set number of threads
-      export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1} # if '-c' not used then default to 1
+      
+      # if '-c' not used then default to 1. SLURM_CPUS_PER_TASK is given by -c
+      export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1} 
       echo using ${OMP_NUM_THREADS} OpenMP threads
       echo
       echo 
       echo Multiple execution..
       echo
       echo
-      # run multiple times
-      for i in {1..5}; do ./${EXE}; done
+
+      # run multiple times. Because we have exported how many threads we're using, we just execute the file.
+      for i in {1..5}; do ./${EXE}; done     
 else
      echo $SRC did not built to $EXE
 fi
