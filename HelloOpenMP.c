@@ -10,10 +10,9 @@ int main(int argc, char const* argv[]){
     thread_id = omp_get_thread_num();
     printf("Goodbye slow serial world and Hello OpenMP!\n");
     printf("I have %d thread(s) and my thread id is %d\n", nthreads, thread_id);
-    #pragma omp parallel for shared(arr) private(i) {
-        for (i = 0; i< 5; i++){
-            printf("%d ", i+2);
-        }
+    #pragma omp parallel for shared(arr) private(i)
+    for (i = 0; i< 5; i++){
+        printf("%d ", i+2);
     }
     return 0;
 }
